@@ -9,11 +9,11 @@ create table users(
 create table planets(
 	id serial primary key,
 	name varchar(20),
-	ownerId int references users(id)
+	ownerId int references users(id) on delete cascade
 );
 
 create table moons(
 	id serial primary key,
 	name varchar(20),
-	myPlanetId int references planets(id)
+	myPlanetId int references planets(id) on delete cascade
 );

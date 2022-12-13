@@ -13,10 +13,15 @@ public class UserService {
 	}
 
 	public User getUserByUsername(String username) {
-		return null;
+		return this.dao.getUserByUsername(username);
 	}
 
 	public User register(UsernamePasswordAuthentication registerRequest) {
-		return null;
+		return this.dao.createUser(registerRequest);
+	}
+
+	public static void main(String[] args) {
+		UserService userService = new UserService();
+		System.out.println(userService.getUserByUsername("username"));
 	}
 }

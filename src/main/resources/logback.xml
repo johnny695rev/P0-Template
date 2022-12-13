@@ -1,26 +1,31 @@
-<!-- configuration: configuration for loggers -->
 <configuration>
 
-    <!-- appender: where to send logs -->
     <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
-
-        <!-- encoder: format of logs -->
         <encoder>
             <pattern>%-4relative [%thread] %-5level %logger{35} - %msg %n</pattern>
         </encoder>
 
     </appender>
 
-    <appender name="FILE" class="ch.qos.logback.core.FileAppender">
+    <appender name="LATENCY" class="ch.qos.logback.core.FileAppender">
         <file>logs/latencyLogs.log</file>
         <append>true</append>
-        <encoder>
-            <pattern>%-4relative [%thread] %-5level %logger{35} - %msg %n</pattern>
+        <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+            <pattern>%D %n</pattern>
+        </encoder>
+    </appender>
+
+    <appender name="ERRORS" class="ch.qos.logback.core.FileAppender">
+        <file>logs/errorLogs.log</file>
+        <append>true</append>
+        <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+            <pattern>%s %n</pattern>
         </encoder>
     </appender>
 
     <root level="INFO">
-        <appender-ref ref="FILE"/>
+        <appender-ref ref="LATENCY"/>
+        <appender-ref ref="ERRORS"/>
     </root>
 
 </configuration>

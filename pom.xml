@@ -48,6 +48,21 @@
             <artifactId>postgresql</artifactId>
             <version>42.2.22</version>
         </dependency>
+
+		<!-- https://mvnrepository.com/artifact/ch.qos.logback/logback-access -->
+	<dependency>
+		<groupId>ch.qos.logback</groupId>
+		<artifactId>logback-access</artifactId>
+		<version>1.4.5</version>
+	</dependency>
+
+	<!-- https://mvnrepository.com/artifact/ch.qos.logback/logback-core -->
+	<dependency>
+		<groupId>ch.qos.logback</groupId>
+		<artifactId>logback-core</artifactId>
+		<version>1.4.5</version>
+	</dependency>
+
 	
   </dependencies>
 </project>
