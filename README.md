@@ -56,4 +56,4 @@ You will need to create one or more bash scripts that read the log file of the p
 # Stretch Goal
 Stretch goals are things to work on ONLY when all MVP requirements have been accomplished: listed below is an optional feature you can add to the project to enhance it further:
 - Create a way for the application to return the SLI metrics for the lifespan of the application via an http request
-    - This will require you to create your own custom classes and integrate them into the project
+    - This will require you to create your own custom classes and integrate them into the project# P0-Template
