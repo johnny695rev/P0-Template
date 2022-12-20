@@ -1,41 +1,14 @@
 <configuration>
-
-    <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+  <appender name="FILE" class="ch.qos.logback.core.FileAppender">
+        <file>logs/logs.log</file>
+        <append>true</append>
         <encoder>
             <pattern>%-4relative [%thread] %-5level %logger{35} - %msg %n</pattern>
-        </encoder>
-
-    </appender>
-
-    <appender name="LATENCY" class="ch.qos.logback.core.FileAppender">
-        <file>logs/latencyLogs.log</file>
-        <append>true</append>
-        <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
-            <pattern>%D %n</pattern>
-        </encoder>
-    </appender>
-
-    <appender name="ERRORS" class="ch.qos.logback.core.FileAppender">
-        <file>logs/errorLogs.log</file>
-        <append>true</append>
-        <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
-            <pattern>%s %n</pattern>
         </encoder>
     </appender>
 
     <root level="INFO">
-        <appender-ref ref="LATENCY"/>
-        <appender-ref ref="ERRORS"/>
+        <appender-ref ref="FILE"/>
     </root>
 
 </configuration>
-
-<!--
-    Logging levels:
-        TRACE (this level tells all details of your app)
-        DEBUG (not as much detail as TRACE, but enough to debug)
-        INFO (General info about app)
-        WARN (developer needs to be aware of something, not catastrophic)
-        ERROR (when something actually goes wrong)
-        NONE (turns off logger)
--->

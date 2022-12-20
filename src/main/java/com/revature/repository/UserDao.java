@@ -10,8 +10,8 @@ import com.revature.models.User;
 import com.revature.models.UsernamePasswordAuthentication;
 import com.revature.utilities.ConnectionUtil;
 
-public class UserDao {
-    
+public class UserDao {   
+ 
     public User getUserByUsername(String username){
         try(Connection connection = ConnectionUtil.createConnection()) {
             String sql = "Select * from users where username = ?";
@@ -46,17 +46,8 @@ public class UserDao {
             newUser.setPassword(registerRequest.getPassword());
             return newUser;
         } catch (SQLException e) {
-            System.out.println(e.getMessage()); 
+            System.out.println(e.getMessage());
             return new User();
         }
     }
-    public static void main(String[] args) {
-        UserDao dao = new UserDao();
-        UsernamePasswordAuthentication newUser = new UsernamePasswordAuthentication();
-        newUser.setUsername("Bava"); 
-        newUser.setPassword("I want Spring");
-        System.out.println(dao.createUser(newUser).getId());
-        System.out.println(dao.getUserByUsername("Java"));
-    }
-
 }

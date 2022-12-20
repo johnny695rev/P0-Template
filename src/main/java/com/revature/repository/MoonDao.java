@@ -31,11 +31,39 @@ public class MoonDao {
 	}
 
 	public Moon getMoonByName(String username, String moonName) {
-		return null;
+		try(Connection connection = ConnectionUtil.createConnection()) {
+            String sql = "Select * from moons where name = ?";
+            PreparedStatement ps = connection.prepareStatement(sql);
+            ps.setString(1, moonName);
+            ResultSet rs = ps.executeQuery();
+            rs.next();
+            Moon moon = new Moon();
+            moon.setId(rs.getInt("id"));
+            moon.setName(rs.getString(2));
+            moon.setMyPlanetId(rs.getInt(3));
+            return moon;
+        } catch(SQLException e) {
+            System.out.println(e.getMessage());
+            return new Moon();
+		}
 	}
 
 	public Moon getMoonById(String username, int moonId) {
-		return null;
+		try(Connection connection = ConnectionUtil.createConnection()) {
+            String sql = "Select * from moons where id = ?";
+            PreparedStatement ps = connection.prepareStatement(sql);
+            ps.setInt(1, moonId);
+            ResultSet rs = ps.executeQuery();
+            rs.next();
+            Moon moon = new Moon();
+            moon.setId(rs.getInt("id"));
+            moon.setName(rs.getString(2));
+            moon.setMyPlanetId(rs.getInt(3));
+            return moon;
+        } catch(SQLException e) {
+            System.out.println(e.getMessage());
+            return new Moon();
+		}
 	}
 
 	public Moon createMoon(String username, Moon m) {
@@ -43,12 +71,18 @@ public class MoonDao {
 			String sql = "insert into moons values (default,?,?)"; 
 			PreparedStatement ps = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
 			ps.setString(1, m.getName()); 
-			String sqlTwo = "Select id from planets where name = ?";
+			String sqlTwo = "Select id from users where username = ?";
 			PreparedStatement psTwo = connection.prepareStatement(sqlTwo);
             psTwo.setString(1, username);
             ResultSet rsTwo = psTwo.executeQuery();
             rsTwo.next();
-			ps.setInt(2, rsTwo.getInt("id")); 
+            int ownerId = rsTwo.getInt("id");
+            String sqlThree = "Select id from planets where ownerid = ?";
+            PreparedStatement psThree = connection.prepareStatement(sqlThree);
+            psThree.setInt(1, ownerId);
+            ResultSet rsThree = psThree.executeQuery();
+            rsThree.next();
+			ps.setInt(2, rsThree.getInt("id")); 
 			ps.execute(); 
 			ResultSet rs = ps.getGeneratedKeys();
 			Moon newMoon = new Moon();
@@ -56,7 +90,7 @@ public class MoonDao {
 			int newId = rs.getInt("id");
 			newMoon.setId(newId);
 			newMoon.setName(m.getName());
-			newMoon.setMyPlanetId(rsTwo.getInt("id"));
+			newMoon.setMyPlanetId(rsThree.getInt("id"));
 			return newMoon;
 		} catch (SQLException e) {
 			System.out.println(e.getMessage()); 
@@ -66,13 +100,13 @@ public class MoonDao {
 
 	public void deleteMoonById(int moonId) {
 		try(Connection connection = ConnectionUtil.createConnection()) {
-            String sql = "Delete * from moons where id = ?";
+            String sql = "Delete from moons where id = ?";
             PreparedStatement ps = connection.prepareStatement(sql);
             ps.setInt(1, moonId);
             int rowsAffected = ps.executeUpdate();
             System.out.println("Rows affected: " + rowsAffected);
         } catch(SQLException e) {
-            System.out.println(e.getMessage()); // log spot to catch error
+            System.out.println(e.getMessage());// log spot to catch error
 		}
 	}
 
@@ -93,11 +127,4 @@ public class MoonDao {
             return moons;
         }  
 	}
-
-	public static void main(String[] args) {
-        MoonDao dao = new MoonDao();
-        Moon moon = new Moon();
-        moon.setName("Moon"); 
-		dao.createMoon("Earth", moon);
-    }
 }

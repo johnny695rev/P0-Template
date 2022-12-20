@@ -12,7 +12,7 @@ import com.revature.models.Planet;
 import com.revature.utilities.ConnectionUtil;
 
 public class PlanetDao {
-    
+
     public List<Planet> getAllPlanets() throws SQLException {
 		try(Connection connection = ConnectionUtil.createConnection()) {
             String sql = "Select * from planets";
@@ -56,7 +56,7 @@ public class PlanetDao {
             ResultSet rs = ps.executeQuery();
             rs.next();
             Planet planet = new Planet();
-            planet.setId(rs.getInt("id"));
+            planet.setId(rs.getInt(1));
             planet.setName(rs.getString(2));
             planet.setOwnerId(rs.getInt(3));
             return planet;
@@ -94,7 +94,7 @@ public class PlanetDao {
 
 	public void deletePlanetById(int planetId) {
 		try(Connection connection = ConnectionUtil.createConnection()) {
-            String sql = "Delete * from planets where id = ?";
+            String sql = "Delete from planets where id = ?";
             PreparedStatement ps = connection.prepareStatement(sql);
             ps.setInt(1, planetId);
             int rowsAffected = ps.executeUpdate();
@@ -103,16 +103,4 @@ public class PlanetDao {
             System.out.println(e.getMessage()); // log spot to catch error
 		}
 	}
-
-	public static void main(String[] args) {
-        PlanetDao dao = new PlanetDao();
-        Planet planet = new Planet();
-        planet.setName("Earth"); 
-		dao.deletePlanetById(1);
-        try {
-            System.out.println(dao.getAllPlanets());
-        } catch (SQLException e) {
-            System.out.println(e.getMessage());
-        }
-    }
 }
